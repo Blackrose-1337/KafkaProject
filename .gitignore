@@ -1,10 +1,16 @@
 # Allgemeine Ignorierungen
 node_modules
 HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+Consumer/target/
+Consumer/!.mvn/wrapper/maven-wrapper.jar
+Consumer/!**/src/main/**/target/
+Consumer/!**/src/test/**/target/
+
+Producer/target/
+Producer/!.mvn/wrapper/maven-wrapper.jar
+Producer/!**/src/main/**/target/
+Producer/!**/src/test/**/target/
+Producer/frontend/generated/jar-resources
 
 ### Entwicklungsumgebungen ###
 # STS (Spring Tool Suite)
