@@ -1,7 +1,7 @@
 version: '3'
 services:
   docsify:
-    build: ./docker/docsify
+    build: docker/docsify
     container_name: docsify
     ports:
       - "10000:10000"
