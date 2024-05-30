@@ -1,6 +1,8 @@
 package blackrose.consumer.service;
 
 import blackrose.consumer.dto.AdUserDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.io.InputStreamReader;
 
 @Service
 public class PowershellService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PowershellService.class);
 
     @Value("${domain.account.mail}")
     private String MAIL;
@@ -31,24 +35,24 @@ public class PowershellService {
             int exitCode = process.waitFor();
             System.out.println("PowerShell-Befehl wurde mit Exit-Code " + exitCode + " beendet.");
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            LOG.info("Error Powershell executing command: ", e);
         }
         return output.toString();
     }
 
     public String createAdUserCommand(AdUserDto adUserDto) {
-        adUserDto = replaceSpaces(adUserDto);
         String samAccountName = createSamAccountName(adUserDto.name, adUserDto.surname);
+        String phoneNumber = adUserDto.phoneNumber.replace(" ", "` ");
         String command = "New-ADUser -Name \"" + adUserDto.name + "` " + adUserDto.surname + "\"" +
                 " -GivenName \"" + adUserDto.name + "\"" +
                 " -Surname \"" + adUserDto.surname + "\"" +
                 " -DisplayName \"" + adUserDto.name + "` " + adUserDto.surname + "\"" +
                 " -SamAccountName \"" + samAccountName + "\"" +
-                " -Initials \"" + adUserDto.name.toUpperCase().charAt(0) + adUserDto.surname.toUpperCase().charAt(0) + "\"" +
-                " -EmailAddress \"" + adUserDto.email + "\"" +
-                " -UserPrincipalName \"" + samAccountName + MAIL + "\"" +
+                " -Initials \"" + samAccountName + "\"" +
+                " -UserPrincipalName \"" + samAccountName + "\"" +
+                " -EmailAddress \"" + samAccountName + MAIL + "\"" +
                 " -Department \"" + adUserDto.department + "\"" +
-                " -OfficePhone \"" + adUserDto.phoneNumber + "\"" +
+                " -OfficePhone \"" + phoneNumber + "\"" +
                 " -AccountPassword  (ConvertTo-SecureString \"" + PASSWORD + "\" -AsPlainText -Force) -Enabled $true -PassThru";
 
         System.out.println("-------------------------------------------COMMAND----------------------------------------------------");
@@ -69,19 +73,7 @@ public class PowershellService {
 
     private boolean checkSamAccountName(String samAccountName) {
         String command = "Get-ADUser -Filter {SamAccountName -eq '" + samAccountName + "'}";
-        System.out.println("-------------------------------------------SamAccountNameCheck----------------------------------------------------");
-        System.out.println(command);
         String output = executeCommand(command);
-        System.out.println(output);
-        System.out.println("-----------------------------------------------------------------------------------------------");
-        return output.trim().startsWith("DistinguishedName");
-    }
-
-    private AdUserDto replaceSpaces(AdUserDto adUserDto) {
-        adUserDto.name = adUserDto.name.replace(" ", "` ");
-        adUserDto.surname = adUserDto.surname.replace(" ", "` ");
-        adUserDto.phoneNumber = adUserDto.phoneNumber.replace(" ", "` ");
-        adUserDto.email = adUserDto.email.replace(" ", "` ");
-        return adUserDto;
+        return !output.isEmpty();
     }
 }

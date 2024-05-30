@@ -38,5 +38,3 @@ KafkaBroker --> ConsumerApp : Liefert Ereignisse
 
 @enduml
 ```
-
-![](../bilder/struktur.png)

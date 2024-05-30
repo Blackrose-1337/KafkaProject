@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 
 
@@ -18,6 +19,9 @@ public class MainView extends VerticalLayout {
 
     private final TextFieldService textFieldService;
     private final KafkaTemplate<String, AdUserDto> kafkaTemplate;
+
+    @Value("${company.kafka.topic}")
+    private String TOPIC;
 
     private final TextField surnameTextField;
     private final TextField nameTextField;
@@ -34,11 +38,11 @@ public class MainView extends VerticalLayout {
 
         surnameTextField = textFieldService.createTextField("Surname");
         nameTextField = textFieldService.createTextField("Name");
-        deparmentCombobox = new ComboBox("Deparment Combobox");
+        deparmentCombobox = new ComboBox<>("Deparment Combobox");
         deparmentCombobox.setItems(Department.values());
         phoneTextField = textFieldService.createTextField("Phone");
         emailTextField = textFieldService.createTextField("Email");
-        generalTextArea = new TextArea("Informationen", "Klick save button...");
+        generalTextArea = new TextArea("Information", "Press save button...");
         generalTextArea.setReadOnly(true);
         generalTextArea.setSizeFull();
 
@@ -49,21 +53,20 @@ public class MainView extends VerticalLayout {
     }
 
     private void saveButtonClicked() {
-        // Werte aus den Textfeldern abrufen
         String surname = surnameTextField.getValue();
         String name = nameTextField.getValue();
         String departmentString = deparmentCombobox.getValue().toString();
-        Department department = Department.valueOf(departmentString); //
+        Department department = Department.valueOf(departmentString);
         String phone = phoneTextField.getValue();
         String email = emailTextField.getValue();
         AdUserDto user = new AdUserDto(surname, name, email, phone, department);
 
-        generalTextArea.setValue("Saved: Name = " + name + "\nSurname = " + surname +
-                "\nDepartment = " + department + "\nPhone = " + phone + "\nEmail = " + email);
+        String text = "Saved: Name = " + name + "\nSurname = " + surname +
+                "\nDepartment = " + department + "\nPhone = " + phone + "\nEmail = " + email;
+        generalTextArea.setValue(text);
 
-        Notification.show("Saved: Name = " + name + ", Surname = " + surname +
-                ", Department = " + department + ", Phone = " + phone + ", Email = " + email);
+        Notification.show(text);
 
-        kafkaTemplate.send("topic1", user);
+        kafkaTemplate.send(TOPIC, user);
     }
 }

@@ -5,5 +5,12 @@
     * [Consumer](beschreibung/consumerApplication.md)
     * [Docker Compose](beschreibung/dockerCompose.md)
 
-  * **Tech. Daten**
+  * **Docker Conpose**
+    * [Inhalt](dockerCompose/inhalt.md)
+  * **Producer**
+    * [Anleitung](producer/anleitung.md)
+    * [pom.xml](producer/pom.md)
+  * **Consumer**
+    * [Anleitung](consumer/anleitung.md)
+    * [pom.xml](consumer/pom.md)
 

@@ -1,0 +1,7 @@
+version: "2"
+authtoken: 2glpX2Dj5OMr0rw5XTXaD2t9RIj_2UiXgX4uwL6YSs8VD45Ah
+tunnels:
+  kafkaProducer:
+    addr: 8080
+    proto: http
+    domain: physically-finer-lamb.ngrok-free.app
