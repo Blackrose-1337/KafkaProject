@@ -26,7 +26,6 @@ public class MainView extends VerticalLayout {
     private final TextField surnameTextField;
     private final TextField nameTextField;
     private final ComboBox<Department> deparmentCombobox;
-    private final TextField emailTextField;
     private final TextField phoneTextField;
     private final TextArea generalTextArea;
 
@@ -41,12 +40,11 @@ public class MainView extends VerticalLayout {
         deparmentCombobox = new ComboBox<>("Deparment Combobox");
         deparmentCombobox.setItems(Department.values());
         phoneTextField = textFieldService.createTextField("Phone");
-        emailTextField = textFieldService.createTextField("Email");
         generalTextArea = new TextArea("Information", "Press save button...");
         generalTextArea.setReadOnly(true);
         generalTextArea.setSizeFull();
 
-        add(surnameTextField, nameTextField, deparmentCombobox, phoneTextField, emailTextField, generalTextArea);
+        add(surnameTextField, nameTextField, deparmentCombobox, phoneTextField, generalTextArea);
         Button button = new Button("Save");
         button.addClickListener(e -> saveButtonClicked());
         add(button);
@@ -58,11 +56,10 @@ public class MainView extends VerticalLayout {
         String departmentString = deparmentCombobox.getValue().toString();
         Department department = Department.valueOf(departmentString);
         String phone = phoneTextField.getValue();
-        String email = emailTextField.getValue();
-        AdUserDto user = new AdUserDto(surname, name, email, phone, department);
+        AdUserDto user = new AdUserDto(surname, name, phone, department);
 
         String text = "Saved: Name = " + name + "\nSurname = " + surname +
-                "\nDepartment = " + department + "\nPhone = " + phone + "\nEmail = " + email;
+                "\nDepartment = " + department + "\nPhone = " + phone ;
         generalTextArea.setValue(text);
 
         Notification.show(text);
