@@ -5,13 +5,11 @@
     * [Consumer](beschreibung/consumerApplication.md)
     * [Docker Compose](beschreibung/dockerCompose.md)
     * [Ngrok](beschreibung/ngrok.md)
+    * [Durchlauf](beschreibung/durchlauf.md)
 
-  * **Docker Conpose**
-    * [Inhalt](dockerCompose/inhalt.md)
-  * **Producer**
-    * [Anleitung](producer/anleitung.md)
-    * [pom.xml](producer/pom.md)
-  * **Consumer**
-    * [Anleitung](consumer/anleitung.md)
-    * [pom.xml](consumer/pom.md)
+  * [Details]()
+    * **[Docker Compose](details/dockerCompose.md)**
+    * **[Git Hub](details/gitHub.md)**
+    * **[Ngrok](details/ngrok.md)**
+    * **[Webhook Controller](details/webhookController.md)**
 

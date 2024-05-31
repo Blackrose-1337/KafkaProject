@@ -1,5 +1,7 @@
 # Struktur
 
+## Komponenten-Diagramm
+
 ```plantuml
 @startuml
 !include <archimate/Archimate>
@@ -115,5 +117,83 @@ Rel_Serving_Up(KafkaBroker, ConsumerApp, "liefert Ereignisse")
 ' Neue Beziehungen zu Ngrok hinzugefügt
 Rel_Serving_Up(LinuxColor, NgrokColor, "erhält öffentliche URL")
 Rel_Serving_Up(NgrokColor, ProducerAppColor, "leitet Anfragen weiter")
+@enduml
+````
+
+## Sequenz-Diagramm
+
+````plantuml
+@startuml
+participant "Webhook (GitHub)" as Webhook
+participant "Ngrok" as Ngrok
+participant "Producer Application" as ProducerApp
+participant "Git API (GitHub)" as GitAPI
+participant "Kafka Broker (Docker)" as KafkaBroker
+participant "Consumer Application (DC)" as ConsumerApp
+participant "PowerShell (DC)" as PowerShell
+
+activate Webhook
+Webhook -> Ngrok: Webhook-Ereignis auslösen
+activate Ngrok
+Ngrok -> ProducerApp: Weiterleitung an Producer
+deactivate Ngrok
+activate ProducerApp
+ProducerApp -> GitAPI: Anfrage senden
+activate GitAPI
+GitAPI -> ProducerApp: Daten liefern
+deactivate GitAPI
+ProducerApp -> ProducerApp: Daten verarbeiten
+ProducerApp -> KafkaBroker: Benutzerdaten senden
+deactivate ProducerApp
+activate KafkaBroker
+KafkaBroker -> ConsumerApp: Neues Event liefern
+activate ConsumerApp
+ConsumerApp -> PowerShell: Benutzer erstellen
+deactivate PowerShell
+deactivate ConsumerApp
+deactivate KafkaBroker
+deactivate Webhook
+deactivate PowerShell
+deactivate ConsumerApp
+deactivate KafkaBroker
+deactivate Ngrok
+@enduml
+````
+
+````
+@startuml
+participant "Webhook (GitHub)" as Webhook
+participant "Ngrok" as Ngrok
+participant "Producer Application" as ProducerApp
+participant "Git API (GitHub)" as GitAPI
+participant "Kafka Broker (Docker)" as KafkaBroker
+participant "Consumer Application (DC)" as ConsumerApp
+participant "PowerShell (DC)" as PowerShell
+
+activate Webhook
+Webhook -> Ngrok: Webhook-Ereignis auslösen
+activate Ngrok
+Ngrok -> ProducerApp: Weiterleitung an Producer
+deactivate Ngrok
+activate ProducerApp
+ProducerApp -> GitAPI: Anfrage senden
+activate GitAPI
+GitAPI -> ProducerApp: Daten liefern
+deactivate GitAPI
+ProducerApp -> ProducerApp: Daten verarbeiten
+ProducerApp -> KafkaBroker: Benutzerdaten senden
+deactivate ProducerApp
+activate KafkaBroker
+KafkaBroker -> ConsumerApp: Neues Event liefern
+activate ConsumerApp
+ConsumerApp -> PowerShell: Benutzer erstellen
+deactivate PowerShell
+deactivate ConsumerApp
+deactivate KafkaBroker
+deactivate Webhook
+deactivate PowerShell
+deactivate ConsumerApp
+deactivate KafkaBroker
+deactivate Ngrok
 @enduml
 ````
