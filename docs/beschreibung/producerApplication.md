@@ -28,4 +28,4 @@ Die **AdUserDto** Klasse ist ein Datenübertragungsobjekt (DTO), das die Attribu
 
 Die **WebhookController-Klasse** ist eine Spring Boot-Anwendung und fungiert als **REST-Controller**, um Webhook-Ereignisse von GitHub zu empfangen und zu verarbeiten. Sie verarbeitet eingehende JSON-Payloads, extrahiert relevante Informationen und sendet die verarbeiteten Daten an einen Kafka-Server.
 
-[Mehr Details WebhookController](../details/webhookController.md)
+[Mehr Details WebhookController](/details/webhookController.md)
