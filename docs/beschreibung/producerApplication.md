@@ -24,3 +24,6 @@ Die Department Enumeration definiert verschiedene Abteilungen, die ein Benutzer 
 
 Die AdUserDto Klasse ist ein Datenübertragungsobjekt (DTO), das die Attribute eines Benutzers wie Nachname, Vorname, E-Mail, Telefonnummer und Abteilung enthält.
 
+## WebhookController.java
+
+Die WebhookController-Klasse ist eine Spring Boot-Anwendung und fungiert als REST-Controller, um Webhook-Ereignisse von GitHub zu empfangen und zu verarbeiten. Sie verarbeitet eingehende JSON-Payloads, extrahiert relevante Informationen und sendet die verarbeiteten Daten an einen Kafka-Server.
